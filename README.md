@@ -44,7 +44,7 @@ Cover things to consider when storing passwords.
 
 - introduce the library we'll use to hash passwords.
 - add [bcryptjs](https://www.npmjs.com/package/bcryptjs) to the project.
-- require `bcryptjs` at the top of `index.js`.
+- require `bcryptjs` at the top of `./api/server.js`.
 
 ```js
 // .. other requires
