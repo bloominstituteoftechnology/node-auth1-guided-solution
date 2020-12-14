@@ -21,11 +21,11 @@ The [Starter Code](https://github.com/LambdaSchool/node-auth1-guided) for this p
 
 ## Introduce Authentication and Authorization
 
-Open TK and provide an introduction to `Authentication` and `Authorization` and highlight the difference.
+Open Canvas and provide an introduction to `Authentication` and `Authorization` and highlight the difference.
 
 Cover things to consider when storing passwords.
 
-- `hashing` vs `encryptiion`.
+- `hashing` vs `encryption`.
 
 ## Hash User Passwords
 
@@ -114,7 +114,7 @@ We don't have a way for the server to _"remember"_ that the user is logged in.
 
 ## Introduce Sessions and Cookies
 
-Open TK and introduce students to `sessions` and `cookies` and how they help us keep user's logged in across requests.
+Open Canvas and introduce students to `sessions` and `cookies` and how they help us keep user's logged in across requests.
 
 Take time to walk through the authentication workflow when using `sessions`.
 
@@ -139,8 +139,8 @@ const sessionConfig = {
     httpOnly: true, // cannot access the cookie from JS using document.cookie
     // keep this true unless there is a good reason to let JS access the cookie
   },
-  resave: false, // keep it false to avoid recreating sessions that have not changed
-  saveUninitialized: false, // GDPR laws against setting cookies automatically
+  resave: false, // we might need to set this to true to avoid idle sessions being deleted
+  saveUninitialized: false, // keep it false to avoid storing sessions and sending cookies for unmodified sessions
 };
 
 // other middleware here
