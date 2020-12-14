@@ -1,9 +1,5 @@
 # Authentication Using Sessions and Cookies
 
-## [📚 Training Kit](https://learn.lambdaschool.com/web4node/module/recQD9lnhqWEFh6g4/)
-
-### Authentication and Testing
-
 ## Objectives
 
 - implement secure password storage.

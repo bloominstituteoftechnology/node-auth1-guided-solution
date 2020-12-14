@@ -1,7 +1,6 @@
 {
-  "name": "auth-ii-guided",
+  "name": "node-auth1-guided-solution",
   "version": "1.0.0",
-  "description": "Authentication Sprint Guided Project",
   "main": "index.js",
   "scripts": {
     "server": "nodemon",
@@ -11,15 +10,21 @@
   "author": "Lambda School",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "connect-session-knex": "^1.6.0",
+    "connect-session-knex": "^2.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "express-session": "^1.17.0",
-    "helmet": "^3.21.3",
-    "knex": "^0.20.12",
-    "sqlite3": "^4.1.1"
+    "express-session": "^1.17.1",
+    "helmet": "^4.2.0",
+    "knex": "^0.21.13",
+    "knex-cleaner": "^1.3.1",
+    "sqlite3": "^5.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "eslint": "^7.15.0",
+    "nodemon": "^2.0.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LambdaSchool/node-auth1-guided-solution.git"
   }
 }
