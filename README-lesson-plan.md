@@ -269,12 +269,12 @@ const sessionConfig = {
   name: "monkey",
   secret: "keep it secret, keep it safe!",
   cookie: {
-    maxAge: 1000 * 60 * 60, // in ms
-    secure: false, // used over https only
+    maxAge: 1000 * 60 * 60,
+    secure: false,
   },
-  httpOnly: true, // cannot access the cookie from js using document.cookie
+  httpOnly: true,
   resave: false,
-  saveUninitialized: false, // GDPR laws against setting cookies automatically
+  saveUninitialized: false,
 
   // we add this to configure the way sessions are stored
   store: new KnexSessionStore({
