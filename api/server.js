@@ -14,11 +14,11 @@ const sessionConfig = {
   secret: 'keep it secret, keep it safe!',
   cookie: {
     maxAge: 1000 * 60 * 60,
-    secure: false,
-    httpOnly: true,
+    secure: false, // if true the cookie is not set unless it's an https connection
+    httpOnly: true, // if true the cookie is not accessible through document.cookie
   },
-  resave: false,
-  saveUninitialized: false,
+  resave: false, // some data stores need this set to true
+  saveUninitialized: false, // privacy implications, if false no cookie is set on client unless the req.session is changed
   store: new KnexSessionStore({
     knex: require('../database/dbConfig.js'), // configured instance of knex
     tablename: 'sessions', // table that will store sessions inside the db, name it anything you want
