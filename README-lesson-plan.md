@@ -12,6 +12,8 @@ The [Starter Code](https://github.com/LambdaSchool/node-auth1-guided) for this p
 
 A simple HTML auth form saved inside the `client` folder can be loaded on `http://localhost:5000/` to test out the functionality we build today.
 
+The database is seeded with a single user with username "admin" and password "1234" (bcrypted).
+
 ## Objectives
 
 - implement secure password storage.
