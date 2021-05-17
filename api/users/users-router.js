@@ -8,7 +8,15 @@ router.get('/', restricted, (req, res, next) => {
     .then(users => {
       res.json(users);
     })
-    .catch(next); // our custom err handling middleware in server.js will trap this
+    .catch(next); // our custom err handling middleware will trap this
+});
+
+router.use((err, req, res, next) => { // eslint-disable-line
+  res.status(err.status || 500).json({
+    message: err.message,
+    stack: err.stack,
+    customMessage: 'Something went wrong inside the users router'
+  });
 });
 
 module.exports = router;
