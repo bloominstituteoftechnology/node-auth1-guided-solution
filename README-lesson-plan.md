@@ -10,6 +10,8 @@ Guided project solution for **Node Auth 1** Module.
 
 The [Starter Code](https://github.com/LambdaSchool/node-auth1-guided) for this project is configured to run the server by typing `npm run server`. The server will restart automatically on changes.
 
+A simple HTML auth form saved inside the `client` folder can be loaded on `http://localhost:5000/` to test out the functionality we build today.
+
 ## Objectives
 
 - implement secure password storage.
