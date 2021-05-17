@@ -16,7 +16,7 @@ const sessionConfig = {
   cookie: {
     maxAge: 1000 * 60 * 60,
     secure: false, // if true the cookie is not set unless it's an https connection
-    httpOnly: true, // if true the cookie is not accessible through document.cookie
+    httpOnly: false, // if true the cookie is not accessible through document.cookie
   },
   rolling: true,
   resave: false, // some data stores need this set to true
