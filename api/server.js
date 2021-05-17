@@ -22,7 +22,7 @@ const sessionConfig = {
   resave: false, // some data stores need this set to true
   saveUninitialized: false, // privacy implications, if false no cookie is set on client unless the req.session is changed
   store: new KnexSessionStore({
-    knex: require('../database/dbConfig.js'), // configured instance of knex
+    knex: require('../database/db-config.js'), // configured instance of knex
     tablename: 'sessions', // table that will store sessions inside the db, name it anything you want
     sidfieldname: 'sid', // column that will hold the session id, name it anything you want
     createtable: true, // if the table does not exist, it will create it automatically
