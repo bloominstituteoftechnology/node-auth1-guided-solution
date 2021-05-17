@@ -37,7 +37,7 @@ Cover things to consider when storing passwords.
 
 ```js
 // .. other requires
-const cors = require("cors"); // not needed if our server only exchanges JSON with an app on same origin
+const cors = require("cors"); // not needed if our server only exchanges JSON with a frontend piece served on same origin
 const bcrypt = require("bcryptjs");
 ```
 
