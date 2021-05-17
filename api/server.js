@@ -18,6 +18,7 @@ const sessionConfig = {
     secure: false, // if true the cookie is not set unless it's an https connection
     httpOnly: true, // if true the cookie is not accessible through document.cookie
   },
+  rolling: true,
   resave: false, // some data stores need this set to true
   saveUninitialized: false, // privacy implications, if false no cookie is set on client unless the req.session is changed
   store: new KnexSessionStore({
