@@ -118,5 +118,4 @@ dist
 # Mac cruft
 .DS_Store
 
-# Removes database
-auth.db3
+launch.json

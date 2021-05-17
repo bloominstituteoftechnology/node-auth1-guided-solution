@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -28,6 +29,7 @@ const sessionConfig = {
   }),
 };
 
+server.use(express.static(path.join(__dirname, '../client')))
 server.use(session(sessionConfig));
 server.use(helmet());
 server.use(express.json());
@@ -36,8 +38,8 @@ server.use(cors());
 server.use('/api/auth', authRouter);
 server.use('/api/users', usersRouter);
 
-server.get('/', (req, res) => {
-  res.send("It's alive!");
+server.use('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client', 'index.html'))
 });
 
 server.use((err, req, res, next) => { // eslint-disable-line

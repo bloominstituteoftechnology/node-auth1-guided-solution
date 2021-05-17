@@ -1,15 +1,13 @@
 {
   "name": "node-auth1-guided-solution",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
-    "server": "nodemon",
     "start": "node index.js",
+    "server": "nodemon index.js",
     "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback",
     "seed": "knex seed:run"
   },
-  "keywords": [],
-  "author": "Lambda School",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "connect-session-knex": "^2.1.0",
