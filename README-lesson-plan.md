@@ -35,7 +35,7 @@ Cover things to consider when storing passwords.
 
 ```js
 // .. other requires
-const cors = require("cors");
+const cors = require("cors"); // not needed if our server only exchanges JSON with an app on same origin
 const bcrypt = require("bcryptjs");
 ```
 
@@ -291,3 +291,7 @@ const sessionConfig = {
 - stop the server
 - start the server
 - make a GET to `/api/users`, we're still logged in!
+
+**wait for students to catch up**
+
+Ask students to load the HTML auth form served on `http://localhost:5000` and test the entire auth flow
