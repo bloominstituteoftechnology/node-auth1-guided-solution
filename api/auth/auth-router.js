@@ -57,12 +57,4 @@ router.get('/logout', (req, res) => {
   }
 });
 
-router.use((err, req, res, next) => { // eslint-disable-line
-  res.status(err.status || 500).json({
-    message: err.message,
-    stack: err.stack,
-    customMessage: 'Something went wrong inside the auth router'
-  });
-});
-
 module.exports = router;
