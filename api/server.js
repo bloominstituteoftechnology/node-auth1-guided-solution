@@ -43,6 +43,16 @@ server.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client', 'index.html'));
 });
 
+server.get('/hello', (req, res) => {
+  // time allowing this can be used to discuss cookies
+  if (req.headers.cookie) {
+    res.send(`<h1>hello, friend</h1>`)
+  } else {
+    res.set('Set-Cookie', `friend=yes; Max-Age=100000;`)
+    res.send(`<h1>This is the first time</h1>`)
+  }
+})
+
 server.use('*', (req, res, next) => {
   next({ status: 404, message: 'not found!' });
 });
