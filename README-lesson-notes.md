@@ -253,7 +253,7 @@ Similar to the preclass announcements above, occasionally it will make sense to 
 
 #### Slack Message [Optional]
 
-Aggregate resources, exit ticket, and reminders into one slack message to share at 11:00 Lambda Time (or when Lecture is finished).
+Aggregate resources, exit ticket, and reminders into one slack message to share at 11:00 Pacific Time (or when Lecture is finished).
 
 ---
 
