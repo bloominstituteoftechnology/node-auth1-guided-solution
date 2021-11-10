@@ -39,30 +39,29 @@ Cover things to consider when storing passwords.
 
 ```js
 // .. other requires
-const cors = require("cors"); // not needed if our server only exchanges JSON with a frontend piece served on same origin
-const bcrypt = require("bcryptjs");
+const cors = require("cors") // not needed if our server only exchanges JSON with a frontend piece served on same origin
+const bcrypt = require("bcryptjs")
 ```
 
 - change the `POST /api/register` to this:
 
 ```js
-server.post("/api/register", (req, res) => {
-  let user = req.body;
+router.post('/register', (req, res, next) => {
+  let user = req.body
   // generate hash from user's password
   // we'll do it synchronously, no sense on going async for this
-  const hash = bcrypt.hashSync(user.password, 10); // 2 to the 10th rounds
-
+  const hash = bcrypt.hashSync(user.password, 8) // 2 to the 10th rounds
   // override user.password with hash
-  user.password = hash;
+  user.password = hash
 
   Users.add(user)
     .then(saved => {
-      res.status(201).json(saved);
+      res.status(201).json({
+        message: `great to have you with us, ${saved.username}`
+      })
     })
-    .catch(error => {
-      res.status(500).json(error);
-    });
-});
+    .catch(next) // our custom err handling middleware will trap this
+})
 ```
 
 - call attention to the time it takes to register a user
@@ -75,7 +74,7 @@ server.post("/api/register", (req, res) => {
 }
 ```
 
-- change the number of rounds to 16: `const hash = bcrypt.hashSync(user.password, 16);`
+- change the number of rounds to 16: `const hash = bcrypt.hashSync(user.password, 16)`
 - make a POST to `/api/register` for _merry/pass_, note how much longer it takes now. That is how we add time to slow down attackers trying to pre-generate hashes.
 - change it down to 8 to make it fast for the demo.
 - explain that the resulting hash includes the number of rounds used to generate the hash.
@@ -89,25 +88,25 @@ server.post("/api/register", (req, res) => {
 - explain that the library will first hash the password guess and then compare the newly generated hash against the hash stored for the user in the database. It's magic!
 
 ```js
-server.post("/api/login", (req, res) => {
-  let { username, password } = req.body;
+router.post('/login', (req, res, next) => {
+  let { username, password } = req.body
 
   Users.findBy({ username })
     .first()
     .then(user => {
       // update the if condition to check that passwords match
       if (user && bcrypt.compareSync(password, user.password)) {
-        res.status(200).json({ message: `Welcome ${user.username}!` });
+        res.status(200).json({
+          message: `welcome back ${user.username}!`,
+        })
       } else {
         // we will return 401 if the password or username are invalid
         // we don't want to let attackers know when they have a good username
-        res.status(401).json({ message: "Invalid Credentials" });
+        next({ status: 401, message: 'Invalid Credentials' })
       }
     })
-    .catch(error => {
-      res.status(500).json(error);
-    });
-});
+    .catch(next)
+})
 ```
 
 Test it using valid and invalid credentials.
@@ -131,7 +130,7 @@ Cover the different ways of storing sessions, including the pros and cons of eac
 
 ```js
 // other code unchanged
-const server = express();
+const server = express()
 
 // this object holds the configuration for the session
 const sessionConfig = {
@@ -145,10 +144,10 @@ const sessionConfig = {
   },
   resave: false, // we might need to set this to true to avoid idle sessions being deleted
   saveUninitialized: false, // keep it false to avoid storing sessions and sending cookies for unmodified sessions
-};
+}
 
 // other middleware here
-server.use(session(sessionConfig));
+server.use(session(sessionConfig))
 // endpoints below
 ```
 
@@ -158,7 +157,7 @@ Session support is configured, let's use it to store user information. Change th
 
 ```js
 router.post("/login", (req, res) => {
-  let { username, password } = req.body;
+  let { username, password } = req.body
 
   Users.findBy({ username })
     .first()
@@ -168,19 +167,41 @@ router.post("/login", (req, res) => {
         // we can store information inside req.session
         // req.session is available on every request done by the same client
         // as long as the session has not expired
-        req.session.user = user;
+        req.session.user = user
         res.status(200).json({
           // the cookie will be sent automatically by the library
           message: `Welcome ${user.username}!, have a cookie!`,
-        });
+        })
       } else {
-        res.status(401).json({ message: "Invalid Credentials" });
+        res.status(401).json({ message: "Invalid Credentials" })
       }
     })
     .catch(error => {
-      res.status(500).json(error);
-    });
-});
+      res.status(500).json(error)
+    })
+})
+router.post('/login', (req, res, next) => {
+  let { username, password } = req.body
+
+  Users.findBy({ username })
+    .first()
+    .then(user => {
+      // update the if condition to check that passwords match
+      if (user && bcrypt.compareSync(password, user.password)) {
+        // req.session is an object added by the session middleware
+        // we can store information inside req.session
+        // req.session is available on every request done by the same client
+        // as long as the session has not expired
+        req.session.user = user
+        res.status(200).json({
+          message: `welcome back ${user.username}, have a cookie!`,
+        })
+      } else {
+        next({ status: 401, message: 'Invalid Credentials' })
+      }
+    })
+    .catch(next)
+})
 ```
 
 - login using valid credentials.
@@ -197,15 +218,14 @@ Ask students to protect the `/api/users` endpoint so only authenticated users ca
 Possible solution would be to write middleware:
 
 ```js
-// this is all the content in the file, no need for bcrypt or Users anymore
-module.exports = (req, res, next) => {
+const protected = (req, res, next) => {
   // if the client is logged in, req.session.user will be set
-  if (req.session && req.session.user) {
-    next();
+  if (req.session.user) {
+    next()
   } else {
-    res.status(401).json({ message: "You shall not pass!" });
+    next({ status: 401, message: 'You shall not pass!' })
   }
-};
+}
 
 // we can use it locally
 server.get('/api/users', restricted, (req, res) => { //.. endpoint unchanged }
@@ -225,17 +245,33 @@ router.get("/logout", (req, res) => {
       if (err) {
         res.send(
           "you can checkout any time you like, but you can never leave...."
-        );
+        )
       } else {
-        res.send("bye, thanks for playing");
+        res.send("bye, thanks for playing")
       }
-    });
+    })
   } else {
     // if there is no session, just end the request or send a response
     // we chose to just end the request for the example
-    res.end();
+    res.end()
   }
-});
+})
+router.get('/logout', (req, res) => {
+  if (req.session.user) {
+    const { username } = req.session.user
+    // the library exposes the destroy method that will remove the session for the client
+    req.session.destroy(err => {
+      if (err) {
+        res.json({ message: `you can never leave, ${username}...` })
+      } else {
+        res.json({ message: `bye ${username}, thanks for playing` })
+      }
+    })
+  } else {
+    // if there is no session, just end the request or send a response
+    res.json({ message: 'excuse me, do I know you?' })
+  }
+})
 ```
 
 - login again
@@ -260,10 +296,10 @@ We will store session information in the database, that way if the server is res
 - require it after `express-session`.
 
 ```js
-const session = require("express-session");
-const KnexSessionStore = require("connect-session-knex")(session);
-// alternatively: const KnexSessionStore = require('connect-session-knex');
-// and then KnexSessionStore(session);
+const session = require("express-session")
+const KnexSessionStore = require("connect-session-knex")(session)
+// alternatively: const KnexSessionStore = require('connect-session-knex')
+// and then KnexSessionStore(session)
 ```
 
 - change the session configuration object to use a database to store session information
@@ -288,7 +324,7 @@ const sessionConfig = {
     createtable: true, // if the table does not exist, it will create it automatically
     clearInterval: 1000 * 60 * 60, // time it takes to check for old sessions and remove them from the database to keep it clean and performant
   }),
-};
+}
 ```
 
 - login

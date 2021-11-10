@@ -1,14 +1,14 @@
 const path = require('path')
-const express = require('express');
-const helmet = require('helmet');
-const cors = require('cors');
-const session = require('express-session');
-const KnexSessionStore = require('connect-session-knex')(session);
+const express = require('express')
+const helmet = require('helmet')
+const cors = require('cors')
+const session = require('express-session')
+const KnexSessionStore = require('connect-session-knex')(session)
 
-const authRouter = require('./auth/auth-router.js');
-const usersRouter = require('./users/users-router.js');
+const authRouter = require('./auth/auth-router.js')
+const usersRouter = require('./users/users-router.js')
 
-const server = express();
+const server = express()
 
 const sessionConfig = {
   name: 'monkey',
@@ -28,20 +28,20 @@ const sessionConfig = {
     createtable: true, // if the table does not exist, it will create it automatically
     clearInterval: 1000 * 60 * 60, // time it takes to check for old sessions and remove them from the database to keep it clean and performant
   }),
-};
+}
 
 server.use(express.static(path.join(__dirname, '../client')))
-server.use(session(sessionConfig));
-server.use(helmet());
-server.use(express.json());
-server.use(cors());
+server.use(session(sessionConfig))
+server.use(helmet())
+server.use(express.json())
+server.use(cors())
 
-server.use('/api/auth', authRouter);
-server.use('/api/users', usersRouter);
+server.use('/api/auth', authRouter)
+server.use('/api/users', usersRouter)
 
 server.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client', 'index.html'));
-});
+  res.sendFile(path.join(__dirname, '../client', 'index.html'))
+})
 
 server.get('/hello', (req, res) => {
   // time allowing this can be used to discuss cookies
@@ -54,14 +54,14 @@ server.get('/hello', (req, res) => {
 })
 
 server.use('*', (req, res, next) => {
-  next({ status: 404, message: 'not found!' });
-});
+  next({ status: 404, message: 'not found!' })
+})
 
 server.use((err, req, res, next) => { // eslint-disable-line
   res.status(err.status || 500).json({
     message: err.message,
     stack: err.stack,
-  });
-});
+  })
+})
 
-module.exports = server;
+module.exports = server

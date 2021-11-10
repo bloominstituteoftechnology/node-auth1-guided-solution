@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 const usernameInput = document.querySelector('#usernameInput')
 const passwordInput = document.querySelector('#passwordInput')
 const registerBtn = document.querySelector('#registerBtn')
