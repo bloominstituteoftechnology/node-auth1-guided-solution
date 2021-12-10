@@ -23,8 +23,8 @@
 
 Include instructor-facing resources here. Examples could include links to guided project, and guided project solution code as well as miscellaneous instructor-facing FAQ guides, etc.
 
-- 🐙 [Guided Project Starter](https://github.com/LambdaSchool/node-auth1-guided)
-- 🐙 [Guided Project Solution](https://github.com/LambdaSchool/node-auth1-guided-solution)
+- 🐙 [Guided Project Starter](https://github.com/bloominstituteoftechnology/node-auth1-guided)
+- 🐙 [Guided Project Solution](https://github.com/bloominstituteoftechnology/node-auth1-guided-solution)
 
 ### Student-Facing Resources & Materials [Optional]
 
