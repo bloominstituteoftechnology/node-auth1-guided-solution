@@ -1,6 +1,5 @@
 const path = require('path')
 const express = require('express')
-const helmet = require('helmet')
 const cors = require('cors')
 const session = require('express-session')
 const KnexSessionStore = require('connect-session-knex')(session)
@@ -32,7 +31,6 @@ const sessionConfig = {
 
 server.use(express.static(path.join(__dirname, '../client')))
 server.use(session(sessionConfig))
-server.use(helmet())
 server.use(express.json())
 server.use(cors())
 
