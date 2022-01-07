@@ -12,7 +12,7 @@ router.post('/register', (req, res, next) => {
   Users.add(user)
     .then(saved => {
       res.status(201).json({
-        message: `great to have you with us, ${saved.username}`
+        message: `Great to have you with us, ${saved.username}`
       })
     })
     .catch(next) // our custom err handling middleware will trap this
@@ -28,7 +28,7 @@ router.post('/login', (req, res, next) => {
         // this is the critical line. Session saved, cookie set on client:
         req.session.user = user
         res.status(200).json({
-          message: `welcome back ${user.username}, have a cookie!`,
+          message: `Welcome back ${user.username}, have a cookie!`,
         })
       } else {
         next({ status: 401, message: 'Invalid Credentials' })
@@ -42,13 +42,13 @@ router.get('/logout', (req, res) => {
     const { username } = req.session.user
     req.session.destroy(err => {
       if (err) {
-        res.json({ message: `you can never leave, ${username}...` })
+        res.json({ message: `You can never leave, ${username}...` })
       } else {
-        res.json({ message: `bye ${username}, thanks for playing` })
+        res.json({ message: `Bye ${username}, thanks for playing` })
       }
     })
   } else {
-    res.json({ message: 'excuse me, do I know you?' })
+    res.json({ message: 'Excuse me, do I know you?' })
   }
 })
 
