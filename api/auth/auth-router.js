@@ -44,8 +44,8 @@ router.get('/logout', (req, res) => {
       if (err) {
         res.json({ message: `You can never leave, ${username}...` })
       } else {
+        // the following line is optional: compliant browsers will delete the cookie from their storage
         res.set('Set-Cookie', 'monkey=; SameSite=Strict; Path=/; Expires=Thu, 01 Jan 1970 00:00:00')
-        // the above line is optional: compliant browsers will delete the cookie from their storage
         res.json({ message: `Bye ${username}, thanks for playing` })
       }
     })
