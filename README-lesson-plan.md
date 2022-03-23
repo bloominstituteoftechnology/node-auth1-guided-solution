@@ -50,7 +50,7 @@ router.post('/register', (req, res, next) => {
   let user = req.body
   // generate hash from user's password
   // we'll do it synchronously, no sense on going async for this
-  const hash = bcrypt.hashSync(user.password, 8) // 2 to the 10th rounds
+  const hash = bcrypt.hashSync(user.password, 8) // 2 to the 8th rounds
   // override user.password with hash
   user.password = hash
 
