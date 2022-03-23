@@ -8,8 +8,6 @@ const message = document.querySelector('#message')
 const fetchUsersBtn = document.querySelector('#fetchUsers')
 const userListDOM = document.querySelector('#users')
 
-console.log('document.cookie:', document.cookie)
-
 const handle = action => evt => {
   evt.preventDefault()
   message.textContent = ''
@@ -24,7 +22,7 @@ const handle = action => evt => {
     body: JSON.stringify(credentials),
   })
     .then(res => res.json())
-    .then(data => { console.log(data); message.textContent = data.message })
+    .then(data => { message.textContent = data.message })
     .catch(err => { message.textContent = err.message; debugger })
 }
 
@@ -34,7 +32,7 @@ const logout = evt => {
   userListDOM.textContent = ''
   fetch(`/api/auth/logout`)
     .then(res => res.json())
-    .then(data => { console.log(data); message.textContent = data.message })
+    .then(data => { message.textContent = data.message })
     .catch(err => { message.textContent = err.message; debugger })
 }
 
